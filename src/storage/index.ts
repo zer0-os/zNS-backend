@@ -34,7 +34,9 @@ export const getFleekStorageService = (bucket?: string): StorageService => {
   }
 
   const uploadBlob = async (data: Buffer | string) => {
-    const hash = hasha(data);
+    const hash = hasha(data, {
+      algorithm: "sha256"
+    });
     const file = uploadFile(hash, data);
     return file;
   };

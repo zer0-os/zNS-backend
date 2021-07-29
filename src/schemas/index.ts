@@ -1,23 +1,14 @@
 import { JSONSchemaType } from "ajv";
 import { Metadata, UploadMetadataDto } from "../types";
 
-const metadataSchema: JSONSchemaType<Metadata> = {
+const uploadMetadataBodySchema: JSONSchemaType<UploadMetadataDto> = {
   type: "object",
   properties: {
     title: { type: "string" },
     story: { type: "string" },
-    image: { type: "string" }
+    imageHash: { type: "string" }
   },
-  required: ['story', 'image', 'title'],
-  additionalProperties: false
-}
-
-const uploadMetadataBodySchema: JSONSchemaType<UploadMetadataDto> = {
-  type: "object",
-  properties: {
-    metadata: metadataSchema
-  },
-  required: ['metadata'],
+  required: ['title', 'story', 'imageHash'],
   additionalProperties: false
 }
 

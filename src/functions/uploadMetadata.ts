@@ -2,7 +2,7 @@ import { Handler } from "@netlify/functions";
 import { actions } from "../actions";
 import { schemas } from "../schemas";
 import { Maybe, UploadMetadataDto } from "../types";
-import { getEnvVariable, responses, validateInput } from "../utilities";
+import { responses, validateInput } from "../utilities";
 import { requirePOSTRequest } from "../utilities/functions";
 
 
@@ -25,7 +25,7 @@ export const handler: Handler = async (event, context) => {
       return responses.badRequest(e);
     }
 
-    const uploadedMetadata = await actions.uploadMetadataToIPFS(input.metadata);
+    const uploadedMetadata = await actions.uploadMetadataToIPFS(input);
 
     return responses.success(uploadedMetadata);
   }

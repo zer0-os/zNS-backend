@@ -25,3 +25,12 @@ export const uploadFile = async (filename: string, data: Buffer | string, bucket
 
   return file;
 }
+
+export const getFileFromHash = async (hash: string): Promise<Buffer> => {
+  const file = await fleekStorage.getFileFromHash({
+    hash,
+    getFileFromHashOptions: ['buffer']
+  });
+
+  return file as Buffer;
+}

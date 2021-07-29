@@ -1,23 +1,29 @@
 import { getFleekStorageService, StorageService } from "../storage";
-import { Metadata } from "../types";
+import { getFileFromHash } from "../storage/fleek";
+import { Metadata, UploadMetadataDto } from "../types";
 
 const getStorage = (): StorageService => {
   const service: StorageService = getFleekStorageService();
   return service;
 }
 
-async function uploadMetadataToIPFS(metadata: Metadata) {
+async function uploadMetadataToIPFS(params: UploadMetadataDto) {
   const storage = getStorage();
+
+  // Download the image and upload to Fleek Storage
+  const imageFile = await getFileFromHash(params.imageHash);
+  const uploadedImage = await storage.uploadBlob(imageFile);
+
+  const metadata: Metadata = {
+    title: params.title,
+    story: params.story,
+    image: `https://ipfs.fleek.co/ipfs/${uploadedImage.ipfsHash}`
+  }
+
   const metadataJson = JSON.stringify(metadata);
 
-  try {
-    const uploadedMetadata = await storage.uploadBlob(metadataJson);
-
-    return uploadedMetadata;
-  }
-  catch (e) {
-    throw Error(`Failed to upload to storage: ${e}`);
-  }
+  const uploadedMetadata = await storage.uploadBlob(metadataJson);
+  return uploadedMetadata;
 }
 
 export const actions = {

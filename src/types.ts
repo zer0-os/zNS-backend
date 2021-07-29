@@ -7,5 +7,7 @@ export interface Metadata {
 }
 
 export interface UploadMetadataDto {
-  metadata: Metadata;
+  title: string;
+  story: string;
+  imageHash: string;
 }
