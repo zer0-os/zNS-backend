@@ -1,0 +1,14 @@
+{
+  "name": "zns-backend",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@netlify/functions": "0.7.2"
+  },
+  "devDependencies": {
+    "typescript": "4.3.5"
+  }
+}

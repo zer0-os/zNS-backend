@@ -1,0 +1,7 @@
+[functions]
+  directory = "functions"
+
+[build]
+  command = "yarn build"
+  functions = "build" # netlify dev uses this to know where to scaffold and serve your functions
+  publish = "static"
