@@ -1,0 +1,43 @@
+import hasha from "hasha";
+import * as fleek from "./fleek";
+
+export interface UploadedFile {
+  name: string;
+  publicUrl: string;
+  ipfsHash: string;
+}
+
+export interface StorageService {
+  uploadBlob: (data: Buffer | string) => Promise<UploadedFile>;
+  uploadFile: (filename: string, data: Buffer | string) => Promise<UploadedFile>;
+}
+
+const defaultBucket = undefined;
+
+export const getFleekStorageService = (bucket?: string): StorageService => {
+  bucket = bucket ?? defaultBucket;
+
+  const uploadFile = async (filename: string, data: Buffer | string) => {
+    const res = await fleek.uploadFile(filename, data, bucket);
+    const file: UploadedFile = {
+      name: filename,
+      publicUrl: res.publicUrl,
+      ipfsHash: res.hashV0
+    }
+
+    return file;
+  }
+
+  const uploadBlob = async (data: Buffer | string) => {
+    const hash = hasha(data);
+    const file = uploadFile(hash, data);
+    return file;
+  };
+
+  const storageService = {
+    uploadFile,
+    uploadBlob
+  }
+
+  return storageService;
+}
