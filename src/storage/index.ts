@@ -14,15 +14,20 @@ export interface StorageService {
 
 const defaultBucket = undefined;
 
+export interface FleekUploadedFile extends UploadedFile {
+  fleekHash: string;
+}
+
 export const getFleekStorageService = (bucket?: string): StorageService => {
   bucket = bucket ?? defaultBucket;
 
   const uploadFile = async (filename: string, data: Buffer | string) => {
     const res = await fleek.uploadFile(filename, data, bucket);
-    const file: UploadedFile = {
+    const file: FleekUploadedFile = {
       name: filename,
       publicUrl: res.publicUrl,
-      ipfsHash: res.hashV0
+      ipfsHash: res.hashV0,
+      fleekHash: res.hash
     }
 
     return file;
