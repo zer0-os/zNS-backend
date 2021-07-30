@@ -15,7 +15,7 @@ export interface StorageService {
   ) => Promise<UploadedFile>;
 }
 
-const defaultBucket = undefined;
+const defaultBucket = process.env.FLEEK_BUCKET;
 
 export interface FleekUploadedFile extends UploadedFile {
   fleekHash: string;
