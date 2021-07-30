@@ -1,5 +1,5 @@
 import { JSONSchemaType } from "ajv";
-import { Metadata, UploadMetadataDto } from "../types";
+import { UploadMetadataDto } from "../types";
 
 const uploadMetadataBodySchema: JSONSchemaType<UploadMetadataDto> = {
   type: "object",

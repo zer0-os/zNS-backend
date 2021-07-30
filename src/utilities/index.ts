@@ -1,5 +1,6 @@
 import Ajv, { JSONSchemaType } from "ajv";
-import { Maybe } from "../types";
+import { FleekUploadedFile } from "../storage";
+import { Maybe, UploadedFileResponse } from "../types";
 
 export * as responses from "./responses";
 
@@ -22,4 +23,16 @@ export function validateInput<T>(input: object, schema: JSONSchemaType<T>): T {
   } else {
     throw Error(`Input is invalid: ${validator.errors}`);
   }
+}
+
+const ipfsGateway = `https://ipfs.fleek.co/ipfs/`;
+
+export function convertToResponse(input: FleekUploadedFile): UploadedFileResponse {
+  const response: UploadedFileResponse = {
+    hash: input.ipfsHash,
+    fleekHash: input.fleekHash,
+    url: `${ipfsGateway}${input.ipfsHash}`
+  }
+
+  return response;
 }

@@ -11,3 +11,9 @@ export interface UploadMetadataDto {
   story: string;
   imageHash: string;
 }
+
+export interface UploadedFileResponse {
+  hash: string;
+  url: string;
+  fleekHash: string;
+}
