@@ -1,9 +1,11 @@
+import { UploadedFile } from "../storage";
 import { getFileFromHash } from "../storage/fleek";
 import { Metadata, UploadMetadataDto } from "../types";
 import { getStorage } from "./helpers";
 
-
-export async function uploadMetadataToIPFS(params: UploadMetadataDto) {
+export async function uploadMetadataToIPFS(
+  params: UploadMetadataDto
+): Promise<UploadedFile> {
   const storage = getStorage();
 
   // Download the image and upload to Fleek Storage
@@ -13,8 +15,8 @@ export async function uploadMetadataToIPFS(params: UploadMetadataDto) {
   const metadata: Metadata = {
     title: params.title,
     story: params.story,
-    image: `https://ipfs.fleek.co/ipfs/${uploadedImage.ipfsHash}`
-  }
+    image: `https://ipfs.fleek.co/ipfs/${uploadedImage.ipfsHash}`,
+  };
 
   const metadataJson = JSON.stringify(metadata);
 

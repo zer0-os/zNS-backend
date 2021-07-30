@@ -1,8 +1,7 @@
 import { Event } from "@netlify/functions/src/function/event";
-import { responses } from ".";
 
-export const requirePOSTRequest = (event: Event) => {
+export const requirePOSTRequest = (event: Event): void => {
   if (event.httpMethod !== "POST") {
     throw Error("Only POST method allowed");
   }
-}
+};

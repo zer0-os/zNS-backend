@@ -6,12 +6,12 @@ const uploadMetadataBodySchema: JSONSchemaType<UploadMetadataDto> = {
   properties: {
     title: { type: "string" },
     story: { type: "string" },
-    imageHash: { type: "string" }
+    imageHash: { type: "string" },
   },
-  required: ['title', 'story', 'imageHash'],
-  additionalProperties: false
-}
+  required: ["title", "story", "imageHash"],
+  additionalProperties: false,
+};
 
 export const schemas = {
-  uploadMetadataBodySchema
-}
+  uploadMetadataBodySchema,
+};

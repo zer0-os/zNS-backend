@@ -3,5 +3,5 @@ import { uploadDataToIPFS } from "./uploadDataToIPFS";
 
 export const actions = {
   uploadMetadataToIPFS,
-  uploadDataToIPFS
-}
+  uploadDataToIPFS,
+};

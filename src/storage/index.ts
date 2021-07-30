@@ -9,7 +9,10 @@ export interface UploadedFile {
 
 export interface StorageService {
   uploadBlob: (data: Buffer | string) => Promise<UploadedFile>;
-  uploadFile: (filename: string, data: Buffer | string) => Promise<UploadedFile>;
+  uploadFile: (
+    filename: string,
+    data: Buffer | string
+  ) => Promise<UploadedFile>;
 }
 
 const defaultBucket = undefined;
@@ -27,15 +30,15 @@ export const getFleekStorageService = (bucket?: string): StorageService => {
       name: filename,
       publicUrl: res.publicUrl,
       ipfsHash: res.hashV0,
-      fleekHash: res.hash
-    }
+      fleekHash: res.hash,
+    };
 
     return file;
-  }
+  };
 
   const uploadBlob = async (data: Buffer | string) => {
     const hash = hasha(data, {
-      algorithm: "sha256"
+      algorithm: "sha256",
     });
     const file = uploadFile(hash, data);
     return file;
@@ -43,8 +46,8 @@ export const getFleekStorageService = (bucket?: string): StorageService => {
 
   const storageService = {
     uploadFile,
-    uploadBlob
-  }
+    uploadBlob,
+  };
 
   return storageService;
-}
+};
