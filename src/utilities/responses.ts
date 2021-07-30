@@ -6,7 +6,7 @@ interface Response {
 
 export const create = (
   code: number,
-  body: Record<string, unknown>
+  body: object
 ): Response => {
   return {
     statusCode: code,
@@ -17,7 +17,7 @@ export const create = (
   };
 };
 
-export const success = (body: Record<string, unknown> | string): Response => {
+export const success = (body: object | string): Response => {
   if (typeof body === "string") {
     return messageResponse(200, body);
   }
