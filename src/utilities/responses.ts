@@ -1,34 +1,28 @@
-interface Response {
-  statusCode: number;
-  body: string;
-  headers: Record<string, string>;
-}
+import express from "express";
+
+type Response = express.Response;
 
 export const create = (
+  res: express.Response,
   code: number,
   body: object
 ): Response => {
-  return {
-    statusCode: code,
-    body: JSON.stringify(body),
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-    },
-  };
+  const response = res.status(code).send(body);
+  return response;
 };
 
-export const success = (body: object | string): Response => {
+export const success = (res: express.Response, body: object | string): Response => {
   if (typeof body === "string") {
-    return messageResponse(200, body);
+    return messageResponse(res, 200, body);
   }
 
-  return create(200, body);
+  return create(res, 200, body);
 };
 
-export const messageResponse = (code: number, message: string): Response => {
-  return create(code, { message });
+export const messageResponse = (res: express.Response, code: number, message: string): Response => {
+  return create(res, code, { message });
 };
 
-export const badRequest = (message: string): Response => {
-  return messageResponse(400, message);
+export const badRequest = (res: express.Response, message: string): Response => {
+  return messageResponse(res, 400, message);
 };
