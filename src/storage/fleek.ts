@@ -1,13 +1,10 @@
-import { getEnvVariable } from "../utilities";
-
+import * as env from "env-var";
 import fleekStorage, { uploadInput } from "@fleekhq/fleek-storage-js";
 
 const fleekAuth = () => {
   return {
-    /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
-    apiKey: getEnvVariable(`FLEEK_STORAGE_API_KEY`, true)!,
-    /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
-    apiSecret: getEnvVariable(`FLEEK_STORAGE_API_SECRET`, true)!,
+    apiKey: env.get(`FLEEK_STORAGE_API_KEY`).required().asString(),
+    apiSecret: env.get(`FLEEK_STORAGE_API_SECRET`).required().asString()
   };
 };
 

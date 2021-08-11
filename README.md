@@ -6,8 +6,6 @@ It is used for web api methods to be run by the dApp.
 
 ## Web API Methods
 
-All methods can be accessed via `https://{url}/.netlify/functions/{method_name}`
-
 These methods are offered by the backend.
 
 ### Upload File to IPFS

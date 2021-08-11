@@ -17,3 +17,8 @@ export interface UploadedFileResponse {
   url: string;
   fleekHash: string;
 }
+
+export enum Environment {
+  dev,
+  prod
+}
