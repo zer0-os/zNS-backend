@@ -16,6 +16,7 @@ export interface StorageService {
 }
 
 const defaultBucket = process.env.FLEEK_BUCKET;
+const fleekPrefix = process.env.FLEEK_PREFIX;
 
 export interface FleekUploadedFile extends UploadedFile {
   fleekHash: string;
@@ -23,9 +24,10 @@ export interface FleekUploadedFile extends UploadedFile {
 
 export const getFleekStorageService = (bucket?: string): StorageService => {
   bucket = bucket ?? defaultBucket;
+  const prefix = fleekPrefix ?? "";
 
   const uploadFile = async (filename: string, data: Buffer | string) => {
-    const res = await fleek.uploadFile(filename, data, bucket);
+    const res = await fleek.uploadFile(`${prefix}${filename}`, data, bucket);
     const file: FleekUploadedFile = {
       name: filename,
       publicUrl: res.publicUrl,
