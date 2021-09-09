@@ -1,8 +1,6 @@
-import bodyParser from "body-parser";
 import express from "express";
 import rateLimit from "express-rate-limit";
 import * as endpoints from "./endpoints";
-import { responses } from "./utilities";
 
 export const apiRouter = express.Router();
 
@@ -18,3 +16,4 @@ const limiter = rateLimit({
 // } as bodyParser.Options));
 
 apiRouter.post("/upload", limiter, endpoints.upload);
+apiRouter.post("/uploadCloudinary", limiter, endpoints.uploadAndCloudinary);

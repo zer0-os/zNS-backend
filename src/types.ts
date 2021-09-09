@@ -20,5 +20,5 @@ export interface UploadedFileResponse {
 
 export enum Environment {
   dev,
-  prod
+  prod,
 }

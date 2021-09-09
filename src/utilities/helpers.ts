@@ -32,9 +32,13 @@ export function convertToResponse(
   return response;
 }
 
-export function isProduction() {
+export function isProduction(): boolean {
   const environment: string = env.get("ENVIRONMENT").default("prod").asString();
   const isProd = environment === "prod";
   return isProd;
 }
 
+export const bytesToMb = (bytes: number): string => {
+  const inMb = (bytes / 1024 / 1024).toPrecision(2);
+  return inMb;
+};
