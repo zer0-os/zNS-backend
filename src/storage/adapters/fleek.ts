@@ -4,7 +4,7 @@ import fleekStorage, { uploadInput } from "@fleekhq/fleek-storage-js";
 const fleekAuth = () => {
   return {
     apiKey: env.get(`FLEEK_STORAGE_API_KEY`).required().asString(),
-    apiSecret: env.get(`FLEEK_STORAGE_API_SECRET`).required().asString()
+    apiSecret: env.get(`FLEEK_STORAGE_API_SECRET`).required().asString(),
   };
 };
 

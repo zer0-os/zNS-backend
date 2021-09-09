@@ -5,7 +5,7 @@ import { Maybe } from "../types";
 import { convertToResponse, responses } from "../utilities";
 import { getBodyAsBuffer } from "./helpers";
 
-export const upload = async (
+export const uploadAndCloudinary = async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
@@ -14,7 +14,7 @@ export const upload = async (
     let contents: Maybe<Buffer | string>;
 
     if (req.readable) {
-      contents = await getBodyAsBuffer(req, res, "50mb");
+      contents = await getBodyAsBuffer(req, res, "100mb");
     } else {
       contents = JSON.stringify(req.body);
     }
@@ -23,7 +23,9 @@ export const upload = async (
       return responses.badRequest(res, `Empty body`);
     }
 
-    const uploadedFile = await actions.uploadDataToIPFS(contents);
+    const uploadedFile = await actions.uploadContentToIPFSAndCloudinary(
+      contents
+    );
     const response = convertToResponse(uploadedFile as FleekUploadedFile);
 
     return responses.success(res, response);
