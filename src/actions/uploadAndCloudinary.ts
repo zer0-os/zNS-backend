@@ -1,11 +1,11 @@
 import { FleekUploadedFile, UploadedFile } from "../storage";
-import { getCloudinaryStorage, getFleekStorage } from "./helpers";
+import { getCloudinaryStorage } from "./helpers";
+import { uploadDataToIPFS } from "./uploadDataToIPFS";
 
 export async function uploadContentToIPFSAndCloudinary(
   data: Buffer | string
 ): Promise<UploadedFile> {
-  const fleekStorage = getFleekStorage();
-  const ipfsFile = (await fleekStorage.uploadBlob(data)) as FleekUploadedFile;
+  const ipfsFile = (await uploadDataToIPFS(data)) as FleekUploadedFile;
 
   const cloudinaryStorage = getCloudinaryStorage();
 
@@ -21,7 +21,12 @@ export async function uploadContentToIPFSAndCloudinary(
     console.log(`Successfully uploading ${ipfsFile.ipfsHash} to Cloudinary`);
   };
 
-  // Purposely don't await
+  /**
+   * This call is purposely not awaited so that the API endpoint returns an HTTP response
+   * immediately but the worker thread continues on to upload the file to Cloudinary.
+   * This is done because Heroku API's must respond within 30 seconds, and it's likely that
+   * a timeout will occur when uploading the file twice for very large files.
+   */
   uploadToCloudinary();
 
   return ipfsFile;

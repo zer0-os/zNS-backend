@@ -1,35 +1,20 @@
 import express from "express";
-import getRawBody from "raw-body";
 import { actions } from "../actions";
 import { FleekUploadedFile } from "../storage";
 import { Maybe } from "../types";
 import { convertToResponse, responses } from "../utilities";
+import { getBodyAsBuffer } from "./helpers";
 
 export const uploadAndCloudinary = async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
-) => {
+): Promise<undefined | express.Response> => {
   try {
     let contents: Maybe<Buffer | string>;
 
     if (req.readable) {
-      try {
-        contents = await getRawBody(req, {
-          length: req.headers["content-length"],
-          limit: "100mb",
-        });
-      } catch (e) {
-        if (e.type === "entity.too.large") {
-          res.status(413);
-          throw Error(
-            `File too large, limit is ${(e.limit / 1024 / 1024).toPrecision(
-              2
-            )}mb`
-          );
-        }
-        throw e;
-      }
+      contents = await getBodyAsBuffer(req, res, "100mb");
     } else {
       contents = JSON.stringify(req.body);
     }

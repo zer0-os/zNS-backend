@@ -5,7 +5,7 @@ export const uploadFile = async (
   publicId: string,
   data: Buffer,
   folder?: string
-) => {
+): Promise<cloudinary.UploadApiResponse> => {
   const finishedUploading = new Promise<cloudinary.UploadApiResponse>(
     (resolve, reject) => {
       const uploadStream = cloudinary.v2.uploader.upload_stream(

@@ -12,7 +12,7 @@ export const getFleekStorage = (): StorageService => {
 };
 
 export const getCloudinaryStorage = (): StorageService => {
-  const service = getCloudinaryStorageService(
+  const service: StorageService = getCloudinaryStorageService(
     env.get("CLOUDINARY_FOLDER").asString()
   );
   return service;
