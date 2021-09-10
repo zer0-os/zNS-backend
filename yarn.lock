@@ -201,7 +201,7 @@
     "@types/mime" "^1"
     "@types/node" "*"
 
-"@types/streamifier@^0.1.0":
+"@types/streamifier@0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@types/streamifier/-/streamifier-0.1.0.tgz#ff2fad6dccd1df65ba69c851999e35990fc8508b"
   integrity sha512-pAGnUJg5pMAKv5ctJudPaGJHEuU/tkgN/F3tC5kQ5YHKS5gpfRZVVmLHE8t3h8H4Nn2JMJxf6T7h4QvSL3H/ug==
@@ -594,7 +594,7 @@ cloudinary-core@^2.10.2:
   resolved "https://registry.yarnpkg.com/cloudinary-core/-/cloudinary-core-2.11.4.tgz#1d191935bcdcd412d499a91b928a94b266fee49d"
   integrity sha512-F1BZczD6f5mB73D0c8gl/iuacVQQO+UhckNZxeeS9ZIVeIHbsfqwWiAZMQmIvEb7Wti/9MLU0xVwaWOak2THHA==
 
-cloudinary@^1.26.3:
+cloudinary@1.26.3:
   version "1.26.3"
   resolved "https://registry.yarnpkg.com/cloudinary/-/cloudinary-1.26.3.tgz#dd79a1e50395abcf7abec970f5973200c77430cb"
   integrity sha512-80ItEXYLbhOGPM42ksOsqG6320jbsU6kqszjVjl5QwDwzbjouktRlw/NdGva1beSu8sp/0lj1mtSGPymGsNiQA==
@@ -2095,7 +2095,7 @@ sprintf-js@~1.0.2:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
   integrity sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
 
-streamifier@^0.1.1:
+streamifier@0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/streamifier/-/streamifier-0.1.1.tgz#97e98d8fa4d105d62a2691d1dc07e820db8dfc4f"
   integrity sha1-l+mNj6TRBdYqJpHR3AfoINuN/E8=
