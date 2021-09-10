@@ -6,3 +6,4 @@ workflows:
     jobs:
       - node/run:
           yarn-run: build
+          pkg-manager: yarn
