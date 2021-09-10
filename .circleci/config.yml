@@ -1,0 +1,9 @@
+version: 2.1
+orbs:
+  node: circleci/node@4.7.0
+workflows:
+  build:
+    jobs:
+      - node/run:
+          yarn-run: build
+          version: 14.17.5
