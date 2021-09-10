@@ -6,4 +6,3 @@ workflows:
     jobs:
       - node/run:
           yarn-run: build
-          version: 14.17.5
