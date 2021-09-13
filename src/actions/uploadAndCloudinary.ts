@@ -10,6 +10,7 @@ export async function uploadContentToIPFSAndCloudinary(
   const cloudinaryStorage = getCloudinaryStorage();
 
   const uploadToCloudinary = async () => {
+    console.log(`Uploading ${ipfsFile.ipfsHash}...`);
     try {
       await cloudinaryStorage.uploadFile(ipfsFile.ipfsHash, data);
     } catch (e) {
@@ -18,7 +19,7 @@ export async function uploadContentToIPFSAndCloudinary(
       return;
     }
 
-    console.log(`Successfully uploading ${ipfsFile.ipfsHash} to Cloudinary`);
+    console.log(`Successfully uploaded ${ipfsFile.ipfsHash} to Cloudinary`);
   };
 
   /**
@@ -27,7 +28,7 @@ export async function uploadContentToIPFSAndCloudinary(
    * This is done because Heroku API's must respond within 30 seconds, and it's likely that
    * a timeout will occur when uploading the file twice for very large files.
    */
-  uploadToCloudinary();
+  setTimeout(() => uploadToCloudinary(), 0);
 
   return ipfsFile;
 }
