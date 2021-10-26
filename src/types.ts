@@ -1,3 +1,5 @@
+import { FleekUploadedFile } from "./storage";
+
 export type Maybe<T> = T | undefined | null;
 
 export interface Metadata {
@@ -21,4 +23,8 @@ export interface UploadedFileResponse {
 export enum Environment {
   dev,
   prod,
+}
+
+export interface CloudinaryUploadMessageDto {
+  ipfsFile: FleekUploadedFile;
 }
