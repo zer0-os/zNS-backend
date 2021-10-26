@@ -7,7 +7,6 @@ import * as cloudinary from "cloudinary";
 import * as env from "env-var";
 import * as http from "https";
 import throng from "throng";
-import { join } from "path/posix";
 
 const maxJobsPerWorker = env.get("WORKER_JOBS").default(2).asIntPositive();
 const workers = env.get("NUM_WORKERS").default(2).asIntPositive();
@@ -17,6 +16,10 @@ function start() {
 
   workQueue.process(maxJobsPerWorker, async (job) => {
     const message = job.data as CloudinaryUploadMessageDto;
+
+    console.log(
+      `Attempting to upload ${message.ipfsFile.ipfsHash} to Cloudinary`
+    );
 
     const finished = new Promise(async (resolve, reject) => {
       http.get(message.ipfsFile.publicUrl, (res) => {
@@ -51,6 +54,7 @@ function start() {
 
     try {
       await finished;
+      console.log(`finished uploading ${message.ipfsFile.ipfsHash}`);
     } catch (e) {
       console.error(
         `Failed to upload video to cloudinary ${message.ipfsFile.ipfsHash}`
