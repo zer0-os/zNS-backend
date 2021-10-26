@@ -7,6 +7,7 @@ import * as cloudinary from "cloudinary";
 import * as env from "env-var";
 import * as http from "https";
 import throng from "throng";
+import { join } from "path/posix";
 
 const maxJobsPerWorker = env.get("WORKER_JOBS").default(2).asIntPositive();
 const workers = env.get("NUM_WORKERS").default(2).asIntPositive();
@@ -18,33 +19,44 @@ function start() {
     const message = job.data as CloudinaryUploadMessageDto;
 
     const finished = new Promise(async (resolve, reject) => {
-      const request = http.get(message.ipfsFile.publicUrl);
-
-      const uploadStream = cloudinary.v2.uploader.upload_stream(
-        {
-          public_id: message.ipfsFile.ipfsHash,
-          folder: env.get("CLOUDINARY_FOLDER").asString(),
-          resource_type: "video",
-        },
-        (err, res) => {
-          if (err) {
-            reject(err);
-            return;
-          }
-
-          if (!res) {
-            reject(new Error("no response"));
-            return;
-          }
-
-          resolve(res);
+      http.get(message.ipfsFile.publicUrl, (res) => {
+        if (res.statusCode !== 200) {
+          reject(`Invalid response`);
         }
-      );
 
-      request.pipe(uploadStream);
+        const uploadStream = cloudinary.v2.uploader.upload_stream(
+          {
+            public_id: message.ipfsFile.ipfsHash,
+            folder: env.get("CLOUDINARY_FOLDER").asString(),
+            resource_type: "video",
+          },
+          (err, res) => {
+            if (err) {
+              reject(err);
+              return;
+            }
+
+            if (!res) {
+              reject(new Error("no response"));
+              return;
+            }
+
+            resolve(res);
+          }
+        );
+
+        res.pipe(uploadStream);
+      });
     });
 
-    await finished;
+    try {
+      await finished;
+    } catch (e) {
+      console.error(
+        `Failed to upload video to cloudinary ${message.ipfsFile.ipfsHash}`
+      );
+      console.error(e);
+    }
   });
 }
 
