@@ -26,6 +26,6 @@ export enum Environment {
 }
 
 export interface CloudinaryUploadMessageDto {
-  hash: string;
   url: string;
+  hash: string;
 }
