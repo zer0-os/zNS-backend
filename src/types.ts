@@ -29,3 +29,7 @@ export interface CloudinaryUploadMessageDto {
   url: string;
   hash: string;
 }
+
+export interface BackgroundUploadMessageDto {
+  url: string; // public URL
+}

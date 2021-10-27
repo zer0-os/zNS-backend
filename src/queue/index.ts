@@ -11,3 +11,9 @@ export const getCloudinaryUploadQueue = () => {
   const workerQueue = new Queue("cloudinary", url);
   return workerQueue;
 };
+
+export const getBackgroundUploadQueue = () => {
+  const url = redisUrl();
+  const workerQueue = new Queue("background", url);
+  return workerQueue;
+};
