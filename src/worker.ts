@@ -17,49 +17,53 @@ function start() {
   workQueue.process(maxJobsPerWorker, async (job) => {
     const message = job.data as CloudinaryUploadMessageDto;
 
-    console.log(
-      `Attempting to upload ${message.ipfsFile.ipfsHash} to Cloudinary`
-    );
+    console.log(`Attempting to upload ${message.hash} to Cloudinary`);
 
-    const finished = new Promise(async (resolve, reject) => {
-      http.get(message.ipfsFile.publicUrl, (res) => {
-        if (res.statusCode !== 200) {
-          reject(`Invalid response`);
-        }
-
-        const uploadStream = cloudinary.v2.uploader.upload_stream(
-          {
-            public_id: message.ipfsFile.ipfsHash,
-            folder: env.get("CLOUDINARY_FOLDER").asString(),
-            resource_type: "video",
-          },
-          (err, res) => {
-            if (err) {
-              reject(err);
-              return;
-            }
-
-            if (!res) {
-              reject(new Error("no response"));
-              return;
-            }
-
-            resolve(res);
+    const tryUploadType = async (type: "video" | "image") => {
+      const finished = new Promise(async (resolve, reject) => {
+        http.get(message.url, (res) => {
+          if (res.statusCode !== 200) {
+            reject(`Invalid response`);
           }
-        );
 
-        res.pipe(uploadStream);
+          const uploadStream = cloudinary.v2.uploader.upload_stream(
+            {
+              public_id: message.hash,
+              folder: env.get("CLOUDINARY_FOLDER").asString(),
+              resource_type: type,
+            },
+            (err, res) => {
+              if (err) {
+                reject(err);
+                return;
+              }
+
+              if (!res) {
+                reject(new Error("no response"));
+                return;
+              }
+
+              resolve(res);
+            }
+          );
+
+          res.pipe(uploadStream);
+        });
       });
-    });
+
+      await finished;
+    };
 
     try {
-      await finished;
-      console.log(`finished uploading ${message.ipfsFile.ipfsHash}`);
+      await tryUploadType("video");
+      console.log(`finished uploading ${message.hash}`);
     } catch (e) {
-      console.error(
-        `Failed to upload video to cloudinary ${message.ipfsFile.ipfsHash}`
-      );
-      console.error(e);
+      console.error(`Failed to upload ${message.hash} as video`);
+      try {
+        await tryUploadType("image");
+      } catch (e) {
+        console.error(`Failed to upload ${message.hash} as image!`);
+      }
     }
   });
 }
