@@ -47,6 +47,8 @@ export const checkBackgroundUpload = async (
       failed: await job.isFailed(),
     };
 
+    await workerQueue.close();
+
     return responses.success(res, response);
   } catch (e) {
     next(e);

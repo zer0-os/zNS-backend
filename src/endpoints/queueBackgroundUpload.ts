@@ -36,6 +36,8 @@ export const queueBackgroundUpload = async (
       jobId: jobId.id,
     };
 
+    await workerQueue.close();
+
     return responses.success(res, response);
   } catch (e) {
     next(e);
