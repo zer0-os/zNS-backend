@@ -4,3 +4,4 @@ export * from "./optimizedCloudinaryUpload";
 export * from "./queueCloudinaryUpload";
 export * from "./uploadv2";
 export * from "./optimizedv2";
+export * from "./optimizedpinatav2";
