@@ -10,8 +10,13 @@ export async function uploadAndQueueCloudinary(
 
   const workQueue = getCloudinaryUploadQueue();
   const message: CloudinaryUploadMessageDto = {
+<<<<<<< HEAD
     url: ipfsFile.publicUrl,
     hash: ipfsFile.ipfsHash,
+=======
+    hash: ipfsFile.ipfsHash,
+    url: ipfsFile.publicUrl,
+>>>>>>> origin/develop
   };
   await workQueue.add(message);
 
