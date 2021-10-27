@@ -39,9 +39,19 @@ function start() {
         async (resolve, reject) => {
           http.get(message.url, async (res) => {
             console.log(`streaming data from ${message.url} to fleek`);
+
+            const key = message.url.substr(
+              message.url.lastIndexOf("/") + 1,
+              message.url.length - message.url.lastIndexOf("/") + 1
+            );
+
+            console.log(
+              `streaming data from ${message.url} to fleek as ${key}`
+            );
+
             const uploadRequest = {
               ...fleekAuth(),
-              key: `${fleekPrefix}backgroundupload-job-${job.id}`,
+              key: `${fleekPrefix}${key}`,
               bucket: defaultBucket,
               stream: res,
             };

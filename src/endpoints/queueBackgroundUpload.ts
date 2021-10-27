@@ -22,11 +22,15 @@ export const queueBackgroundUpload = async (
     }
 
     const dto = req.body as DTO;
+
+    console.log(`queuing background upload of ${dto.url}`);
     const workerQueue = getBackgroundUploadQueue();
     const message: BackgroundUploadMessageDto = {
       url: dto.url,
     };
     const jobId = await workerQueue.add(message);
+
+    console.log(`queued upload with job id ${jobId.id}`);
 
     const response: Response = {
       jobId: jobId.id,
