@@ -8,11 +8,12 @@
     "style": "prettier --write ./src/**/*.ts",
     "start": "node ./build/index.js",
     "start:worker": "node ./build/worker.js",
+    "start:backgrounduploader": "node ./build/background-upload-worker.js",
     "dev": "nodemon",
     "debug": "nodemon --inspect ./src/index.ts"
   },
   "dependencies": {
-    "@fleekhq/fleek-storage-js": "1.0.17",
+    "@fleekhq/fleek-storage-js": "1.0.20",
     "ajv": "7.2.4",
     "axios": "0.24.0",
     "bull": "3.29.3",

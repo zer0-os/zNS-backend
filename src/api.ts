@@ -22,3 +22,6 @@ apiRouter.post("/queueCloudinary", limiter, endpoints.queueCloudinaryUpload);
 apiRouter.post("/uploadV2", limiter, endpoints.uploadV2);
 apiRouter.post("/longupload", limiter, endpoints.optimizedv2);
 apiRouter.post("/longuploadv2", limiter, endpoints.optimizedpinatav2);
+
+apiRouter.post("/background/start", limiter, endpoints.queueBackgroundUpload);
+apiRouter.post("/background/check", limiter, endpoints.checkBackgroundUpload);
