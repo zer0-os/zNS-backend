@@ -18,3 +18,4 @@ const limiter = rateLimit({
 apiRouter.post("/upload", limiter, endpoints.upload);
 apiRouter.post("/uploadCloudinary", limiter, endpoints.uploadAndCloudinary);
 apiRouter.post("/uploadVideo", limiter, endpoints.optimizedCloudinaryUpload);
+apiRouter.post("/uploadV2", limiter, endpoints.uploadV2);
