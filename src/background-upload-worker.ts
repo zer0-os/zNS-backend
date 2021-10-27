@@ -86,9 +86,11 @@ function start() {
 
       await job.progress("completed");
 
+      const ipfsGateway = `https://ipfs.fleek.co/ipfs/`;
+
       done(undefined, {
-        url: ipfsUpload.publicUrl,
-        hash: ipfsUpload.hash,
+        url: `${ipfsGateway}${ipfsUpload.hashV0}`,
+        hash: ipfsUpload.hashV0,
       });
     } catch (e) {
       done(Error(`Failed ${e}`));
