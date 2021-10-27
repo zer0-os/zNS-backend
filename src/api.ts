@@ -20,3 +20,4 @@ apiRouter.post("/uploadCloudinary", limiter, endpoints.uploadAndCloudinary);
 apiRouter.post("/uploadVideo", limiter, endpoints.optimizedCloudinaryUpload);
 apiRouter.post("/queueCloudinary", limiter, endpoints.queueCloudinaryUpload);
 apiRouter.post("/uploadV2", limiter, endpoints.uploadV2);
+apiRouter.post("/longupload", limiter, endpoints.optimizedv2);
