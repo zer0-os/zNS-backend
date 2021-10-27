@@ -10,11 +10,11 @@ export const optimizedv2 = async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
-): Promise<undefined> => {
+): Promise<void> => {
   try {
-    const delayed = new DelayedResponse(req, res);
+    const delayed = new DelayedResponse(req, res, next);
 
-    const upload = async () => {
+    const upload = async (callback: any) => {
       let contents: Maybe<Buffer | string>;
 
       if (req.readable) {
@@ -24,26 +24,25 @@ export const optimizedv2 = async (
       }
 
       if (contents.length === 0) {
-        responses.badRequest(res, `Empty body`);
-        res.end();
+        callback("no body");
         return;
       }
 
       const uploadedFile = await actions.uploadAndQueueCloudinary(contents);
       const response = convertToResponse(uploadedFile as FleekUploadedFile);
 
-      responses.success(res, response);
-      res.end();
-      return;
+      callback(undefined, response);
     };
 
     delayed.json();
 
-    delayed.start(1000, 10000);
-    const finished = upload();
-    delayed.end(finished);
+    delayed.on("error", (e: any) => {
+      console.log(e);
+      console.log(`delayed error`);
+      res.end();
+    });
 
-    return;
+    upload(delayed.start(1000, 20000));
   } catch (e) {
     next(e);
   }
