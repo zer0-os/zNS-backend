@@ -26,5 +26,6 @@ export enum Environment {
 }
 
 export interface CloudinaryUploadMessageDto {
-  ipfsFile: FleekUploadedFile;
+  hash: string;
+  url: string;
 }
