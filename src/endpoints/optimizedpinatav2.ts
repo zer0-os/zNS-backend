@@ -69,6 +69,8 @@ export const optimizedpinatav2 = async (
         const message: CloudinaryUploadMessageDto = response;
         await workQueue.add(message);
 
+        await workQueue.close();
+
         return callback(undefined, response);
       }
     };

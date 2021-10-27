@@ -15,5 +15,7 @@ export async function uploadAndQueueCloudinary(
   };
   await workQueue.add(message);
 
+  await workQueue.close();
+
   return ipfsFile;
 }
