@@ -14,6 +14,13 @@ export const getCloudinaryUploadQueue = () => {
 
 export const getBackgroundUploadQueue = () => {
   const url = redisUrl();
-  const workerQueue = new Queue("background", url);
+  const workerQueue = new Queue("background", {
+    redis: {
+      port: env.get("REDIS_PORT").required().asInt(),
+      host: env.get("REDIS_HOST").required().asString(),
+      password: env.get("REDIS_PW").required().asString(),
+      username: env.get("REDIS_USER").required().asString(),
+    },
+  });
   return workerQueue;
 };

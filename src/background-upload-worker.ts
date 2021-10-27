@@ -74,8 +74,8 @@ function start() {
       await job.progress("uploading to cloudinary");
 
       const tryUploadType = async (type: "video" | "image") => {
-        await cloudinary.v2.uploader.upload_url({
-          public_id: ipfsUpload.hash,
+        await cloudinary.v2.uploader.upload(message.url, {
+          public_id: ipfsUpload.hashV0,
           folder: env.get("CLOUDINARY_FOLDER").asString(),
           resource_type: type,
         });
@@ -83,7 +83,6 @@ function start() {
 
       try {
         await tryUploadType("video");
-        console.log(`finished uploading ${message.url}`);
       } catch (e) {
         console.error(`Failed to upload ${message.url} as video`);
         try {
@@ -93,6 +92,8 @@ function start() {
           done(Error(`Failed to upload to cloudinary.`));
         }
       }
+
+      console.log(`finished uploading ${message.url} as ${ipfsUpload.hashV0}`);
 
       await job.progress("completed");
 
