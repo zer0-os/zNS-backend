@@ -29,4 +29,14 @@ apiRouter.post("/longupload", limiter, endpoints.optimizedv2);
 apiRouter.post("/longuploadv2", limiter, endpoints.optimizedpinatav2);
 
 apiRouter.post("/background/start", limiter, endpoints.queueBackgroundUpload);
+apiRouter.post(
+  "/background/startBulk",
+  limiter,
+  endpoints.queueBackgroundUploadBulk
+);
 apiRouter.post("/background/check", limiter, endpoints.checkBackgroundUpload);
+apiRouter.post(
+  "/background/checkBulk",
+  limiter,
+  endpoints.checkBackgroundUploadBulk
+);

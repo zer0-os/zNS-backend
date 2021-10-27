@@ -7,3 +7,4 @@ export * from "./optimizedv2";
 export * from "./optimizedpinatav2";
 export * from "./queueBackgroundUpload";
 export * from "./checkBackgroundUpload";
+export * from "./checkBackgroundUploadBulk";

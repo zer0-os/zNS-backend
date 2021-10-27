@@ -61,7 +61,7 @@ function start() {
               );
               resolve(file);
             } catch (e) {
-              console.error(e);
+              console.error(`${message.url} failed uploading to fleek = ${e}`);
               done(Error(`Failed ${e}`));
               reject(`Failed to upload to Fleek ${e}`);
             }
@@ -104,6 +104,7 @@ function start() {
         hash: ipfsUpload.hashV0,
       });
     } catch (e) {
+      console.error(`Job Failed to upload ${message.url} ${e}`);
       done(Error(`Failed ${e}`));
     }
   });
