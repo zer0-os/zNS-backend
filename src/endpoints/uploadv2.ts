@@ -6,6 +6,7 @@ import { getBodyAsBuffer } from "./helpers";
 import * as pinata from "../pinata";
 import * as env from "env-var";
 import { getCloudinaryUploadQueue } from "../queue";
+import { Readable } from "stream";
 
 const pinataApiKey = env.get("PINATA_API_KEY").required().asString();
 const pinataApiSecret = env.get("PINATA_API_SECRET").required().asString();
@@ -52,7 +53,8 @@ export const uploadV2 = async (
       const pinnedFile = await pinata.pinFileToIPFS(
         pinataApiKey,
         pinataApiSecret,
-        contents as Buffer
+        contents,
+        req.headers["content-type"]!
       );
 
       const response = {
@@ -67,6 +69,11 @@ export const uploadV2 = async (
       return responses.success(res, response);
     }
   } catch (e) {
+    if (e.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.log(e.response.data);
+    }
     next(e);
   }
 };

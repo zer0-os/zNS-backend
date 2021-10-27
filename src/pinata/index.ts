@@ -7,15 +7,24 @@ export interface PinResponse {
   Timestamp: string;
 }
 
+export const pinFileToIPFSv2 = async (file: any) => {
+  const url = "https://managed.mypinata.cloud/api/v1/content";
+};
+
 export const pinFileToIPFS = async (
   pinataApiKey: string,
   pinataSecretApiKey: string,
-  file: Buffer
+  file: any,
+  contentType: string
 ) => {
   const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
   //we gather a local file for this example, but any valid readStream source will work here.
   let data = new FormData();
-  data.append("file", file);
+
+  data.append("file", file, {
+    contentType,
+    filename: "useless",
+  });
 
   //You'll need to make sure that the metadata is in the form of a JSON object that's been convered to a string
   //metadata is optional
@@ -46,11 +55,10 @@ export const pinFileToIPFS = async (
   data.append("pinataOptions", pinataOptions);
 
   const res = await axios.post(url, data, {
-    maxBodyLength: "Infinity" as unknown as number, //this is needed to prevent axios from erroring out with large files
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity,
     headers: {
-      "Content-Type": `multipart/form-data; boundary=${
-        (data as any)._boundary
-      }`,
+      "Content-Type": `multipart/form-data; boundary=${data.getBoundary()}`,
       pinata_api_key: pinataApiKey,
       pinata_secret_api_key: pinataSecretApiKey,
     },

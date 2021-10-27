@@ -8,7 +8,8 @@
     "style": "prettier --write ./src/**/*.ts",
     "start": "node ./build/index.js",
     "start:worker": "node ./build/worker.js",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "debug": "nodemon --inspect ./src/index.ts"
   },
   "dependencies": {
     "@fleekhq/fleek-storage-js": "1.0.17",
