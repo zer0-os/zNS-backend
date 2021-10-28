@@ -281,10 +281,10 @@
     "@typescript-eslint/types" "4.28.5"
     eslint-visitor-keys "^2.0.0"
 
-"@zero-tech/fleek-storage-js@^1.0.22":
-  version "1.0.22"
-  resolved "https://registry.yarnpkg.com/@zero-tech/fleek-storage-js/-/fleek-storage-js-1.0.22.tgz#ea57bfa838105f05ad41ad9c4232e1fccd956d07"
-  integrity sha512-wW/3xv2uVrRgdN3HSmmNLqsExiqcBfB824iGx79Eg9DbHzcDroxr2Cm25DqHNuYIkRpjCloMLSTXf9wojDB4eg==
+"@zero-tech/fleek-storage-js@^1.0.23":
+  version "1.0.23"
+  resolved "https://registry.yarnpkg.com/@zero-tech/fleek-storage-js/-/fleek-storage-js-1.0.23.tgz#2be67afd2ce14924de3e2ca1ee49536705a21122"
+  integrity sha512-5OhTXSKELGQ0lk5zfVHcs4st8+mpux+IihCj4M5YwHehPQOfoqdO/qsFqvl3yoyQL0rcAEuVwDlwo+mjAoZEEg==
   dependencies:
     aws-sdk "^2.989.0"
     axios "^0.21.1"
