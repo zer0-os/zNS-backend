@@ -13,7 +13,7 @@
     "debug": "nodemon --inspect ./src/index.ts"
   },
   "dependencies": {
-    "@fleekhq/fleek-storage-js": "1.0.20",
+    "@zero-tech/fleek-storage-js": "^1.0.22",
     "ajv": "7.2.4",
     "axios": "0.24.0",
     "bull": "3.29.3",

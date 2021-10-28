@@ -38,16 +38,6 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fleekhq/fleek-storage-js@1.0.20":
-  version "1.0.20"
-  resolved "https://registry.yarnpkg.com/@fleekhq/fleek-storage-js/-/fleek-storage-js-1.0.20.tgz#95e6cb87109fdc44d823ee8fcd6ba99253fe73a5"
-  integrity sha512-I8YPcp4u2XVN3dONTPvg03SfAXupIWOcWQmMg9JkukydA3GsSVyIPQWMXy79ezKxzEfluHKcxhkJ7OUNyrOgAA==
-  dependencies:
-    aws-sdk "^2.989.0"
-    axios "^0.21.1"
-    multiformats "^9.4.7"
-    s3-streaming-upload "^0.3.4"
-
 "@humanwhocodes/config-array@^0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.5.0.tgz#1407967d4c6eecd7388f83acf1eaf4d0c6e58ef9"
@@ -290,6 +280,16 @@
   dependencies:
     "@typescript-eslint/types" "4.28.5"
     eslint-visitor-keys "^2.0.0"
+
+"@zero-tech/fleek-storage-js@^1.0.22":
+  version "1.0.22"
+  resolved "https://registry.yarnpkg.com/@zero-tech/fleek-storage-js/-/fleek-storage-js-1.0.22.tgz#ea57bfa838105f05ad41ad9c4232e1fccd956d07"
+  integrity sha512-wW/3xv2uVrRgdN3HSmmNLqsExiqcBfB824iGx79Eg9DbHzcDroxr2Cm25DqHNuYIkRpjCloMLSTXf9wojDB4eg==
+  dependencies:
+    aws-sdk "^2.989.0"
+    axios "^0.21.1"
+    multiformats "^9.4.7"
+    s3-streaming-upload "^0.3.4"
 
 abbrev@1:
   version "1.1.1"

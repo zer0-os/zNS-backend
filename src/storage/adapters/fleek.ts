@@ -1,5 +1,5 @@
 import * as env from "env-var";
-import fleekStorage, { uploadInput } from "@fleekhq/fleek-storage-js";
+import fleekStorage, { uploadInput } from "@zero-tech/fleek-storage-js";
 
 const fleekAuth = () => {
   return {
@@ -7,6 +7,13 @@ const fleekAuth = () => {
     apiSecret: env.get(`FLEEK_STORAGE_API_SECRET`).required().asString(),
   };
 };
+
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+const maxAttempts = 3;
+const delayAmount = 500;
 
 export const uploadFile = async (
   filename: string,
@@ -20,9 +27,22 @@ export const uploadFile = async (
     data,
   };
 
-  const file = await fleekStorage.upload(uploadRequest);
+  let numAttempts = 0;
+  let lastError: Error | undefined;
+  while (numAttempts < maxAttempts) {
+    try {
+      const file = await fleekStorage.upload(uploadRequest);
+      return file;
+    } catch (e) {
+      lastError = e;
+      numAttempts++;
+      if (numAttempts < maxAttempts) {
+        delay(delayAmount);
+      }
+    }
+  }
 
-  return file;
+  throw lastError;
 };
 
 export const getFileFromHash = async (hash: string): Promise<Buffer> => {
