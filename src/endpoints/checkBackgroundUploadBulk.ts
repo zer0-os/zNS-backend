@@ -4,10 +4,10 @@ import { BackgroundUploadMessageDto } from "../types";
 import { responses } from "../utilities";
 
 interface DTO {
-  jobId: number | string;
+  jobIds: number[];
 }
 
-interface Response {
+interface JobData {
   attemptsMade: number;
   progress: any;
   data: any;
@@ -17,7 +17,11 @@ interface Response {
   failed: boolean;
 }
 
-export const checkBackgroundUpload = async (
+interface Response {
+  [jobId: number]: JobData;
+}
+
+export const checkBackgroundUploadBulk = async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
@@ -29,23 +33,30 @@ export const checkBackgroundUpload = async (
 
     const dto = req.body as DTO;
     const workerQueue = getBackgroundUploadQueue();
-    const job = await workerQueue.getJob(dto.jobId);
 
-    if (!job) {
-      return responses.badRequest(res, `Invalid job id`);
+    const response: Response = {};
+
+    for (const jobId of dto.jobIds) {
+      const job = await workerQueue.getJob(jobId);
+
+      if (!job) {
+        continue;
+      }
+
+      const isCompleted = await job.isCompleted();
+
+      const jobData: JobData = {
+        attemptsMade: job.attemptsMade,
+        progress: job.progress(),
+        data: job.data,
+        isCompleted,
+        result: isCompleted ? await job.finished() : undefined,
+        error: job.failedReason,
+        failed: await job.isFailed(),
+      };
+
+      response[jobId] = jobData;
     }
-
-    const isCompleted = await job.isCompleted();
-
-    const response: Response = {
-      attemptsMade: job.attemptsMade,
-      progress: job.progress(),
-      data: job.data,
-      isCompleted,
-      result: isCompleted ? await job.finished() : undefined,
-      error: job.failedReason,
-      failed: await job.isFailed(),
-    };
 
     await workerQueue.close();
 

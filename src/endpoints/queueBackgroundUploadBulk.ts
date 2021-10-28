@@ -4,14 +4,14 @@ import { BackgroundUploadMessageDto } from "../types";
 import { responses } from "../utilities";
 
 interface DTO {
-  url: string;
+  urls: string[];
 }
 
 interface Response {
-  jobId: number | string;
+  [url: string]: number;
 }
 
-export const queueBackgroundUpload = async (
+export const queueBackgroundUploadBulk = async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
@@ -23,18 +23,21 @@ export const queueBackgroundUpload = async (
 
     const dto = req.body as DTO;
 
-    console.log(`queuing background upload of ${dto.url}`);
+    const response: Response = {};
+
     const workerQueue = getBackgroundUploadQueue();
-    const message: BackgroundUploadMessageDto = {
-      url: dto.url,
-    };
-    const jobId = await workerQueue.add(message);
 
-    console.log(`queued upload with job id ${jobId.id}`);
+    for (const url of dto.urls) {
+      console.log(`queuing background upload of ${url}`);
+      const message: BackgroundUploadMessageDto = {
+        url,
+      };
+      const job = await workerQueue.add(message);
 
-    const response: Response = {
-      jobId: jobId.id,
-    };
+      console.log(`queued upload with job id ${job.id}`);
+
+      response[url] = job.id as number;
+    }
 
     await workerQueue.close();
 

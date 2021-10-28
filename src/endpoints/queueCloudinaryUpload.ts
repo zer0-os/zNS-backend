@@ -36,6 +36,8 @@ export const queueCloudinaryUpload = async (
     };
     await workQueue.add(message);
 
+    await workQueue.close();
+
     return responses.create(res, 200, {});
   } catch (e) {
     next(e);
