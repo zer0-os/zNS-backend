@@ -40,7 +40,7 @@ export const checkBackgroundUploadBulk = async (
       const job = await workerQueue.getJob(jobId);
 
       if (!job) {
-        return responses.badRequest(res, `Invalid job id`);
+        continue;
       }
 
       const isCompleted = await job.isCompleted();
