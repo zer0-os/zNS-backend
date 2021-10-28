@@ -71,25 +71,32 @@ function start() {
 
       const ipfsUpload = await finished;
 
-      await job.progress("uploading to cloudinary");
+      const extension = message.url.substr(
+        message.url.lastIndexOf(".") + 1,
+        message.url.length - message.url.lastIndexOf(".") + 1
+      );
 
-      const tryUploadType = async (type: "video" | "image") => {
-        await cloudinary.v2.uploader.upload(message.url, {
-          public_id: ipfsUpload.hashV0,
-          folder: env.get("CLOUDINARY_FOLDER").asString(),
-          resource_type: type,
-        });
-      };
+      if (extension !== "json") {
+        await job.progress("uploading to cloudinary");
 
-      try {
-        await tryUploadType("video");
-      } catch (e) {
-        console.error(`Failed to upload ${message.url} as video`);
+        const tryUploadType = async (type: "video" | "image") => {
+          await cloudinary.v2.uploader.upload(message.url, {
+            public_id: ipfsUpload.hashV0,
+            folder: env.get("CLOUDINARY_FOLDER").asString(),
+            resource_type: type,
+          });
+        };
+
         try {
-          await tryUploadType("image");
+          await tryUploadType("video");
         } catch (e) {
-          console.error(`Failed to upload ${message.url} as image!`);
-          done(Error(`Failed to upload to cloudinary.`));
+          console.error(`Failed to upload ${message.url} as video`);
+          try {
+            await tryUploadType("image");
+          } catch (e) {
+            console.error(`Failed to upload ${message.url} as image!`);
+            done(Error(`Failed to upload to cloudinary.`));
+          }
         }
       }
 
