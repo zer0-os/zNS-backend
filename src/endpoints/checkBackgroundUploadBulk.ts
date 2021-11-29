@@ -1,4 +1,3 @@
-import Bull from "bull";
 import express from "express";
 import { getBackgroundUploadQueue } from "../queue";
 import { responses } from "../utilities";
@@ -47,7 +46,7 @@ export const checkBackgroundUploadBulk = async (
 
     for (const jobId of dto.jobIds) {
       const index = jobs.findIndex((job) => {
-        return job.id.toString() == jobId.toString();
+        return job.id.toString() === jobId.toString();
       });
       if (index === -1) {
         console.error(`Could not find job with id of ${jobId}`);
