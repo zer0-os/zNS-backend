@@ -57,7 +57,7 @@ export const checkBackgroundUploadBulk = async (
 
     for (const jobId of dto.jobIds) {
       const index = jobs.findIndex((job) => {
-        return job.id === jobId;
+        return job.id.toString() == jobId.toString();
       });
       if (index === -1) {
         console.error(`Could not find job with id of ${jobId}`);
