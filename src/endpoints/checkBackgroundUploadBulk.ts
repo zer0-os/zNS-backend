@@ -1,7 +1,6 @@
 import Bull from "bull";
 import express from "express";
 import { getBackgroundUploadQueue } from "../queue";
-import { BackgroundUploadMessageDto, Maybe } from "../types";
 import { responses } from "../utilities";
 
 interface DTO {
@@ -37,23 +36,14 @@ export const checkBackgroundUploadBulk = async (
 
     const response: Response = {};
 
-    let lowestJobNumber = 0;
-    let highestJobNumber = 0;
-
-    dto.jobIds.forEach((jobId: number) => {
-      if (lowestJobNumber === 0 || lowestJobNumber > jobId) {
-        lowestJobNumber = jobId;
-      }
-      if (highestJobNumber < jobId) {
-        highestJobNumber = jobId;
-      }
-    });
-
-    const jobs = await workerQueue.getJobs(
-      ["completed", "waiting", "active", "delayed", "failed", "paused"],
-      lowestJobNumber - 1,
-      highestJobNumber + 1
-    );
+    const jobs = await workerQueue.getJobs([
+      "completed",
+      "waiting",
+      "active",
+      "delayed",
+      "failed",
+      "paused",
+    ]);
 
     for (const jobId of dto.jobIds) {
       const index = jobs.findIndex((job) => {
