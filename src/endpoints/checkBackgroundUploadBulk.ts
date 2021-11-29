@@ -1,6 +1,5 @@
 import express from "express";
 import { getBackgroundUploadQueue } from "../queue";
-import { BackgroundUploadMessageDto } from "../types";
 import { responses } from "../utilities";
 
 interface DTO {
@@ -36,8 +35,24 @@ export const checkBackgroundUploadBulk = async (
 
     const response: Response = {};
 
+    const jobs = await workerQueue.getJobs([
+      "completed",
+      "waiting",
+      "active",
+      "delayed",
+      "failed",
+      "paused",
+    ]);
+
     for (const jobId of dto.jobIds) {
-      const job = await workerQueue.getJob(jobId);
+      const index = jobs.findIndex((job) => {
+        return job.id.toString() === jobId.toString();
+      });
+      if (index === -1) {
+        console.error(`Could not find job with id of ${jobId}`);
+        continue;
+      }
+      const job = jobs[index];
 
       if (!job) {
         continue;
